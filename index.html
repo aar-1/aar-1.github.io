@@ -40,7 +40,18 @@
 
 		 // Obtain AWS credentials
 		 AWS.config.credentials.get(function(){
-			// Access AWS resources here.
+			var S3 = new AWS.S3();
+			 var params={Bucket: 'Arushi'};
+			 S3.putObject(params, function(error, data){
+				 if(error)
+				 {
+					 console.log(error);
+				 }
+				 else
+				 {
+					 console.log(data);
+				 }
+			 });
 		 });
 	}
 
