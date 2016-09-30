@@ -41,8 +41,8 @@
 		 // Obtain AWS credentials
 		 AWS.config.credentials.get(function(){
 			var S3 = new AWS.S3();
-			 var params={Bucket: 'Arushi'};
-			 S3.putObject(params, function(error, data){
+			 var params={Bucket: 'Arushi/test'};
+			 S3.createBucket(params, function(error, data){
 				 if(error)
 				 {
 					 console.log(error);
