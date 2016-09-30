@@ -8,7 +8,7 @@
   <body>
     <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
     <script>
-      function onSignIn(googleUser,signinCallback) {
+      function onSignIn(googleUser) {
         // Useful data for your client-side scripts:
         var profile = googleUser.getBasicProfile();
         console.log("ID: " + profile.getId()); // Don't send this directly to your server!
@@ -19,22 +19,33 @@
         console.log("Email: " + profile.getEmail());
 
         // The ID token you need to pass to your backend:
-		var authResult = googleUser.getAuthResponse();
-        var id_token = authResult.id_token;
+		var authResult = googleUser.nse();
+		
+        var id_token = authResult.id_tgetAuthRespooken;
         console.log("ID Token: " + id_token);
-		signinCallbackallback(authResult);
+		signinCallback(authResult);
+		
 		
       };
+	  
 	  function signinCallback(authResult) {
-  if (authResult['status']['signed_in']) {
+	  if (authResult['status']['signed_in']) {
 
-     // Add the Google access token to the Cognito credentials login map.
-     AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-        IdentityPoolId: 'us-east-1:d9c95b87-96c9-4c20-8ef6-9f15c004f2d5',
-        Logins: {
-           'accounts.google.com': authResult['id_token']
-        }
-     });
+		 // Add the Google access token to the Cognito credentials login map.
+		 AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+			IdentityPoolId: 'IDENTITY_POOL_ID',
+			Logins: {
+			   'accounts.google.com': authResult['id_token']
+			}
+		 });
+
+		 // Obtain AWS credentials
+		 AWS.config.credentials.get(function(){
+			// Access AWS resources here.
+		 });
+	}
+}
+	  
 
      // Obtain AWS credentials
      AWS.config.credentials.get(function(){
