@@ -32,7 +32,7 @@
 
 		 // Add the Google access token to the Cognito credentials login map.
 		 AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-			IdentityPoolId:'us-east-1:d9c95b87-96c9-4c20-8ef6-9f15c004f2d5'
+			IdentityPoolId:'us-east-1:d9c95b87-96c9-4c20-8ef6-9f15c004f2d5',
 			Logins: {
 			   'accounts.google.com': authResult.id_token
 			}
