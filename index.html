@@ -28,20 +28,45 @@
       };
 	  
 	  function signinCallback(authResult) {
-	  if (authResult.access_token) {
-
+	  if (authResult.id_token) {
+		
+		 //Setting up Amazon Cognito Region 
+		 AWS.config.region = 'us-east-1';
 		 // Add the Google access token to the Cognito credentials login map.
 		 AWS.config.credentials = new AWS.CognitoIdentityCredentials({
 			IdentityPoolId:'us-east-1:d9c95b87-96c9-4c20-8ef6-9f15c004f2d5',
 			Logins: {
-			   'accounts.google.com': authResult.id_token
+			   'accounts.google.com' : authResult.id_token
 			}
 		 });
+		  
+		  // We can set the get method of the Credentials object to retrieve
+// the unique identifier for the end user (identityId) once the provider
+// has refreshed itself
+AWS.config.credentials.get(function(err) {
+    if (err) {
+        console.log("Error: "+err);
+        return;
+    }
+    console.log("Cognito Identity Id: " + AWS.config.credentials.identityId);
+ 
+    // Other service clients will automatically use the Cognito Credentials provider
+    // configured in the JavaScript SDK.
+    var cognitoSyncClient = new AWS.CognitoSync();
+    cognitoSyncClient.listDatasets({
+        IdentityId: AWS.config.credentials.identityId,
+        IdentityPoolId: "us-east-1:d9c95b87-96c9-4c20-8ef6-9f15c004f2d5"
+    }, function(err, data) {
+        if ( !err ) {
+            console.log(JSON.stringify(data));
+        }
+    });
+});
 
 		 // Obtain AWS credentials
-		 AWS.config.credentials.get(function(){
+		/* AWS.config.credentials.get(function(){
 			var S3 = new AWS.S3();
-			 var params={Bucket: 'Arushi/test'};
+			 var params={Bucket: 'Aarushi/test'};
 			 S3.createBucket(params, function(error, data){
 				 if(error)
 				 {
@@ -52,7 +77,8 @@
 					 console.log(data);
 				 }
 			 });
-		 });
+		 });*/
+		  
 	}
 
 }
