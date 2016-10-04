@@ -65,19 +65,19 @@ AWS.config.credentials.get(function(err) {
 	
 	//check for s3 bucket access
 	
-	var S3 = new AWS.S3();
-	var params = {Bucket : 'aarushi.CognitoUser.Bkt/Test'};
-	S3.createBucket(params, function(error,data){
+	var aarushiBkt = new AWS.S3();
+	var params = {Bucket : 'aarushi-test-bucket'};
+	aarushiBkt.listObjects(params, function(error,data){
 			if(error)
 			{
 				console.log("Error in bucket creation: " + error);
 			}
 			else
 			{
-				console.log("Data of bucket created is: "+data);
+				console.log("Data of bucket created is: " + data);
 			}
 });
-// end of bucket creation check		  
+// end of bucket access check		  
 });
 //end of credentials check + AWS resource access check
 		  
