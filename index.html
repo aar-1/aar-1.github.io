@@ -61,8 +61,27 @@ AWS.config.credentials.get(function(err) {
             console.log(JSON.stringify(data));
         }
     });
+	//end of check of congnito-sync srvc access
+	
+	//check for s3 bucket access
+	
+	var S3 = new AWS.S3();
+	var params = {Bucket : 'aarushi_CognitoUser_bkt/Test'};
+	S3.createBucket(params, function(error,data){
+			if(error)
+			{
+				console.log("Error in bucket creation: " + error);
+			}
+			else
+			{
+				console.log("Data of bucket created is: "+data);
+			}
 });
-
+// end of bucket creation check		  
+});
+//end of credentials check + AWS resource access check
+		  
+		  
 		 // Obtain AWS credentials
 		/* AWS.config.credentials.get(function(){
 			var S3 = new AWS.S3();
